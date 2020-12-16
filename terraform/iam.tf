@@ -78,17 +78,17 @@ data "aws_iam_policy_document" "ssm_policy_doc" {
 }
 
 resource "aws_iam_policy" "gp2gp-ecr" {
-  name   = "${var.environment}-gp2gp-ecr"
+  name   = "${var.environment}-gp2gp-worker-ecr"
   policy = data.aws_iam_policy_document.ecr_policy_doc.json
 }
 
 resource "aws_iam_policy" "gp2gp-logs" {
-  name   = "${var.environment}-gp2gp-logs"
+  name   = "${var.environment}-gp2gp-worker-logs"
   policy = data.aws_iam_policy_document.logs_policy_doc.json
 }
 
 resource "aws_iam_policy" "gp2gp-ssm" {
-  name   = "${var.environment}-gp2gp-ssm"
+  name   = "${var.environment}-gp2gp-worker-ssm"
   policy = data.aws_iam_policy_document.ssm_policy_doc.json
 }
 
