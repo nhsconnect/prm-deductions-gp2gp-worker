@@ -41,3 +41,28 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy_job
+
+  'prm-deductions-gp2gp-worker.test':
+    group: deductions
+    label_template: '${git[:8]}'
+    materials:
+      git:
+        type: configrepo
+        blacklist:
+          - docs/**/*.*
+      app:
+        pipeline: prm-deductions-gp2gp-adaptor
+        stage: test_docker
+      base_infra:
+        pipeline: prm-deductions-infra
+        stage: deploy_test
+      dev_env:
+        pipeline: prm-deductions-gp2gp-worker.dev
+        stage: deploy
+    environment_variables:
+      NHS_ENVIRONMENT: test
+    stages:
+      - deploy:
+          clean_workspace: true
+          jobs:
+            deploy: *deploy_job
