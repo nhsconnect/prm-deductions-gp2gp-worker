@@ -29,8 +29,8 @@ pipelines:
         blacklist:
           - docs/**/*.*
       app:
-        pipeline: prm-deductions-gp2gp-adaptor
-        stage: test_docker
+        pipeline: prm-deductions-gp2gp-worker
+        stage: docker
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_dev
@@ -51,8 +51,8 @@ pipelines:
         blacklist:
           - docs/**/*.*
       app:
-        pipeline: prm-deductions-gp2gp-adaptor
-        stage: test_docker
+        pipeline: prm-deductions-gp2gp-worker
+        stage: docker
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_test

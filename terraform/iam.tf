@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "ecr_policy_doc" {
     ]
 
     resources = [
-      "arn:aws:ecr:${var.region}:${local.account_id}:repository/deductions/gp2gp-adaptor"
+      "arn:aws:ecr:${var.region}:${local.account_id}:repository/deductions/gp2gp-worker"
     ]
   }
   statement {
