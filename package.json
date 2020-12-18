@@ -2,7 +2,7 @@
   "name": "prm-deductions-gp2gp-worker",
   "version": "1.0.0",
   "description": "GP2GP Worker Service for handling asyc messages with Spine",
-  "main": "src/server.js",
+  "main": "src/worker.js",
   "scripts": {
     "lint": "eslint src/ scripts/",
     "lint:fix": "npm run lint -- --fix",
@@ -11,8 +11,8 @@
     "test:integration": "jest \"src/.*\\integration.test\\.js\" --detectOpenHandles --forceExit --setupFiles dotenv/config",
     "test:coverage": "jest src/ --maxWorkers=1 --coverage --detectOpenHandles --forceExit --setupFiles dotenv/config",
     "build": "babel src -d build --ignore '**/*.test.js' --ignore '**/__mocks__/*' --ignore '**/__tests__/*'",
-    "start": "node build/server.js",
-    "start:local": "babel-node -r dotenv/config src/server.js"
+    "start": "node build/worker.js",
+    "start:local": "babel-node -r dotenv/config src/worker.js"
   },
   "repository": {
     "type": "git",
