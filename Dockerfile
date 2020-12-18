@@ -7,12 +7,10 @@ RUN apk update && apk add openssl ca-certificates && rm -rf /var/cache/apk/*
 
 RUN apk add --no-cache tini bash
 
-COPY run-server.sh /usr/bin/run-gp2gp-server
+COPY run-worker.sh /usr/bin/run-gp2gp-server
 
 ENV GP2GP_ADAPTOR_MHS_QUEUE_VIRTUAL_HOST="/" \
   GP2GP_ADAPTOR_REPOSITORY_ASID=deduction-asid \
-  GP2GP_ADAPTOR_ENABLE_WORKER=true \
-  GP2GP_ADAPTOR_ENABLE_SERVER=true \
   GP2GP_ADAPTOR_REPOSITORY_ODS_CODE=deduction-ods \
   NODE_ENV=local \
   GP2GP_ADAPTOR_MHS_QUEUE_NAME=gp2gp-test \

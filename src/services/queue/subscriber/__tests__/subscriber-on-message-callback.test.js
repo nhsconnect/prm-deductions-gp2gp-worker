@@ -21,11 +21,6 @@ describe('subscriberOnMessageCallback', () => {
     it('should call logEvent status on success with "Handling Message"', () => {
       expect(logEvent).toHaveBeenCalledWith('Handling Message', expect.anything());
     });
-
-    xit('should call client.ack with message on success', () => {
-      expect(mockChannel.ack).toHaveBeenCalledTimes(1);
-      expect(mockChannel.ack).toHaveBeenCalledWith(mockMessage);
-    });
   });
 
   describe('if error in callback', () => {
@@ -59,11 +54,6 @@ describe('subscriberOnMessageCallback', () => {
     it('should call logError with the error', () => {
       expect(logError).toHaveBeenCalledTimes(1);
       expect(logError).toHaveBeenCalledWith('Handling Message error', { err: 'mock-error' });
-    });
-
-    xit('should call client.ack with message on failure', () => {
-      expect(mockChannel.ack).toHaveBeenCalledTimes(1);
-      expect(mockChannel.ack).toHaveBeenCalledWith('Handling Message error', { err: 'mock-error' });
     });
   });
 });

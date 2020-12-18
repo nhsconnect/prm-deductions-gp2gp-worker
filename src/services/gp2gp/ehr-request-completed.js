@@ -1,6 +1,6 @@
 import { storeMessageInEhrRepo } from '../ehr';
 import { extractNhsNumber } from '../parser/message';
-import { parseMultipartBody } from '../parser/multipart-parser';
+import { parseMultipartBody } from '../parser';
 import { soapEnvelopeHandler } from '../soap';
 import { logEvent, logError } from '../../middleware/logging';
 import { sendEhrMessageReceived } from '../gp-to-repo/send-ehr-message-received';
