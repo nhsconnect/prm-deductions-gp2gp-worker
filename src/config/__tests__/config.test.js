@@ -25,13 +25,13 @@ describe('config', () => {
       });
 
       it('should map config with process.env values if set', () => {
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_NAME = 'queueName';
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_URL_1 = 'queueUrl1';
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_URL_2 = 'queueUrl2';
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_VIRTUAL_HOST = 'queueVirtualHost';
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_USERNAME = 'queueUsername';
-        process.env.GP2GP_ADAPTOR_MHS_QUEUE_PASSWORD = 'queuePassword';
-        process.env.GP2GP_ADAPTOR_EHR_REPO_URL = 'ehrRepoUrl';
+        process.env.GP2GP_WORKER_MHS_QUEUE_NAME = 'queueName';
+        process.env.GP2GP_WORKER_MHS_QUEUE_URL_1 = 'queueUrl1';
+        process.env.GP2GP_WORKER_MHS_QUEUE_URL_2 = 'queueUrl2';
+        process.env.GP2GP_WORKER_MHS_QUEUE_VIRTUAL_HOST = 'queueVirtualHost';
+        process.env.GP2GP_WORKER_MHS_QUEUE_USERNAME = 'queueUsername';
+        process.env.GP2GP_WORKER_MHS_QUEUE_PASSWORD = 'queuePassword';
+        process.env.GP2GP_WORKER_EHR_REPO_URL = 'ehrRepoUrl';
         process.env.NODE_ENV = 'nodeEnv';
         process.env.SERVICE_URL = 'url';
 

@@ -23,10 +23,7 @@ jest.mock('../../../config', () => ({
     gpToRepoUrl: 'http://localhost',
     repoToGpAuthKeys: 'more-fake-keys',
     repoToGpUrl: 'http://localhost',
-    queueUrls: [
-      process.env.GP2GP_ADAPTOR_MHS_QUEUE_URL_1,
-      process.env.GP2GP_ADAPTOR_MHS_QUEUE_URL_2
-    ]
+    queueUrls: [process.env.GP2GP_WORKER_MHS_QUEUE_URL_1, process.env.GP2GP_WORKER_MHS_QUEUE_URL_2]
   })
 }));
 

@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-data "aws_ssm_parameter" "gp2gp_adaptor_authorization_keys_for_ehr_repo" {
+data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_ehr_repo" {
   name = "/repo/${var.environment}/user-input/ehr-repo-authorization-keys"
 }
 
@@ -36,18 +36,18 @@ data "aws_ssm_parameter" "deductions_private_gp2gp_worker_sg_id" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-gp2gp-worker-sg-id"
 }
 
-data "aws_ssm_parameter" "gp2gp_adaptor_gp_to_repo_url" {
+data "aws_ssm_parameter" "gp2gp_worker_gp_to_repo_url" {
   name = "/repo/${var.environment}/output/prm-deductions-gp-to-repo/service-url"
 }
 
-data "aws_ssm_parameter" "gp2gp_adaptor_authorization_keys_for_gp_to_repo" {
+data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_gp_to_repo" {
   name = "/repo/${var.environment}/user-input/gp-to-repo-authorization-keys"
 }
 
-data "aws_ssm_parameter" "gp2gp_adaptor_authorization_keys_for_repo_to_gp" {
+data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_repo_to_gp" {
   name = "/repo/${var.environment}/user-input/repo-to-gp-authorization-keys"
 }
 
-data "aws_ssm_parameter" "gp2gp_adaptor_repo_to_gp_url" {
+data "aws_ssm_parameter" "gp2gp_worker_repo_to_gp_url" {
   name = "/repo/${var.environment}/output/prm-deductions-repo-to-gp/repo-to-gp-service-url"
 }
