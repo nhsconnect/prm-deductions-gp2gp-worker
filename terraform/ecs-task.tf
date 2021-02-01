@@ -5,7 +5,7 @@ locals {
     task_log_group               = "/nhs/deductions/${var.environment}-${data.aws_caller_identity.current.account_id}/${var.component_name}"
     environment_variables        = [
       { name = "NODE_ENV", value = var.environment },
-      { name = "GP2GP_WORKER_MHS_QUEUE_NAME", value = "js-inbound" },
+      { name = "GP2GP_WORKER_MHS_QUEUE_NAME", value = "raw-inbound" },
       { name = "GP2GP_WORKER_MHS_QUEUE_URL_1", value = data.aws_ssm_parameter.amq-endpoint_0.value },
       { name = "GP2GP_WORKER_MHS_QUEUE_URL_2", value = data.aws_ssm_parameter.amq-endpoint_1.value },
       { name = "GP2GP_WORKER_EHR_REPO_URL", value = "https://${var.environment}.ehr-repo.patient-deductions.nhs.uk" },
