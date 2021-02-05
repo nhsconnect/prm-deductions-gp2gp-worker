@@ -58,8 +58,8 @@ describe('EHRRequestCompleted', () => {
       done();
     });
 
-    it('should call storeMessageInEhrRepo with message and manifest (array of messageIds)', async done => {
-      const manifest = ['FE6A40B9-F4C6-4041-A306-EA2A149411CD'];
+    it('should call storeMessageInEhrRepo with message and manifest (array of messageIds in lowercase)', async done => {
+      const manifest = ['fe6a40b9-f4c6-4041-a306-ea2a149411cd'];
       await new EHRRequestCompleted().handleMessage(ehrRequestCompletedMessage);
       expect(storeMessageInEhrRepo).toHaveBeenCalledWith(
         ehrRequestCompletedMessage,

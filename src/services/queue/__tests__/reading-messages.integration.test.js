@@ -61,7 +61,8 @@ describe('Should read messages from the queue successfully', () => {
   describe('Handle EHR Request', () => {
     const mockRepoToGpUrl = 'http://localhost';
     const mockRepoToGpAuthKeys = 'more-fake-keys';
-    it('should tell RepoToGP that an ehr request has been received', async () => {
+
+    it('should tell RepoToGP that an EHR request has been received', async () => {
       const headers = { reqheaders: { Authorization: `${mockRepoToGpAuthKeys}` } };
       const body = {
         data: {

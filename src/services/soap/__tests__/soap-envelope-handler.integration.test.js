@@ -1,10 +1,10 @@
 import { soapEnvelopeHandler } from '../';
 
 describe('soapEnvelopeHandler', () => {
-  it('should return object containing conversationId', () => {
+  it('should return object containing conversationId in lowercase', () => {
     return expect(soapEnvelopeHandler(message)).resolves.toEqual(
       expect.objectContaining({
-        conversationId
+        conversationId: conversationId.toLowerCase()
       })
     );
   });
@@ -18,10 +18,10 @@ describe('soapEnvelopeHandler', () => {
     );
   });
 
-  it('should return object containing messageId', () => {
+  it('should return object containing messageId in lowercase', () => {
     return expect(soapEnvelopeHandler(message)).resolves.toEqual(
       expect.objectContaining({
-        messageId
+        messageId: messageId.toLowerCase()
       })
     );
   });

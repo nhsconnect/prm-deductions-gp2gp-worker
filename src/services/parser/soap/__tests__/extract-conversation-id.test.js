@@ -9,7 +9,7 @@ describe('extractConversationId', () => {
 
   const expectedErrorMessage = `The key 'ConversationId' was not found in the message`;
 
-  const testConversationId = uuid().toUpperCase();
+  const testConversationId = uuid();
 
   const realExample = `
     <SOAP:Envelope>
@@ -36,6 +36,24 @@ describe('extractConversationId', () => {
   it('should extract the conversationId from XML body in a real example', () => {
     return extractConversationId(realExample).then(conversationId =>
       expect(conversationId).toBe(testConversationId)
+    );
+  });
+
+  it('should transform conversationId to lower case', () => {
+    const testConversationIdUpperCase = uuid().toUpperCase();
+    const testConversationIdLowerCase = uuid().toLowerCase();
+
+    const realExampleUpperCase = `
+    <SOAP:Envelope>
+      <SOAP:Header>
+          <eb:MessageHeader SOAP:mustUnderstand="1" eb:version="2.0">
+              <eb:ConversationId>${testConversationIdUpperCase}</eb:ConversationId>
+          </eb:MessageHeader>
+      </SOAP:Header>
+    </SOAP:Envelope>
+    `;
+    return extractConversationId(realExampleUpperCase).then(conversationId =>
+      expect(conversationId).toBe(testConversationIdLowerCase)
     );
   });
 

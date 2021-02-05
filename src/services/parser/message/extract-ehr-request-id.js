@@ -4,7 +4,7 @@ export const extractEhrRequestId = message => {
   return new XmlParser()
     .parse(message)
     .then(jsObject => jsObject.findFirst('EhrRequest'))
-    .then(ehrRequest => ehrRequest.id.root)
+    .then(ehrRequest => ehrRequest.id.root.toLowerCase())
     .catch(err => {
       throw new Error(`Message does not contain EHR Request ID: ${err.message}`);
     });

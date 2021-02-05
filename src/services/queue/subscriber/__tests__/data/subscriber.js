@@ -6,7 +6,7 @@ export const odsCode = 'N82668';
 export const conversationId = 'some-conversation-id-123';
 export const messageId = 'some-message-id-456';
 export const foundationSupplierAsid = 'foundation-supplier-asid';
-export const ehrRequestId = '041CA2AE-3EC6-4AC9-942F-0F6621CC0BFC';
+export const ehrRequestId = '041ca2ae-3ec6-4ac9-942f-0f6621cc0bfc';
 
 export const ehrRequestCompletedMessage = `------=_MIME-Boundary
 Content-Type: application/xml

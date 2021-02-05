@@ -1,6 +1,8 @@
 import { extractEhrRequestId } from '../extract-ehr-request-id';
 
-const exampleMessage = `<RCMR_IN010000UK05 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="Message" xmlns="urn:hl7-org:v3">
+describe('extract ehr id', () => {
+  const ehrRequestId = '041CA2AE-3EC6-4AC9-942F-0F6621CC0BFC';
+  const exampleMessage = `<RCMR_IN010000UK05 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="Message" xmlns="urn:hl7-org:v3">
    <id root="DFF5321C-C6EA-468E-BBC2-B0E48000E071"/>
    <ControlActEvent type="ControlAct" classCode="CACT" moodCode="EVN">
         <author1 type="Participation" typeCode="AUT">
@@ -12,19 +14,16 @@ const exampleMessage = `<RCMR_IN010000UK05 xmlns:xsi="http://www.w3.org/2001/XML
         </author1>
         <subject type="ActRelationship" typeCode="SUBJ" contextConductionInd="false">
             <EhrRequest type="ActHeir" classCode="EXTRACT" moodCode="RQO">
-                <id root="041CA2AE-3EC6-4AC9-942F-0F6621CC0BFC"/>
+                <id root="${ehrRequestId}"/>
             </EhrRequest>
         </subject>
    </ControlActEvent>
 </RCMR_IN010000UK05>`;
 
-const errorExampleMessage = `<RCMR_IN010000UK05></RCMR_IN010000UK05>`;
+  const errorExampleMessage = `<RCMR_IN010000UK05></RCMR_IN010000UK05>`;
 
-describe('extract ehr id', () => {
-  it('should extract ehr id', () => {
-    expect(extractEhrRequestId(exampleMessage)).resolves.toBe(
-      '041CA2AE-3EC6-4AC9-942F-0F6621CC0BFC'
-    );
+  it('should extract ehr id in lowercase', () => {
+    expect(extractEhrRequestId(exampleMessage)).resolves.toBe(ehrRequestId.toLowerCase());
   });
 
   it('should get error message when cannot extract ehr id', () => {
