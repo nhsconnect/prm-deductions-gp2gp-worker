@@ -3,6 +3,7 @@ import { mockChannel } from '../../../../__mocks__/stompit';
 import { channelPool } from '../../helper';
 import { initialiseSubscriber } from '../initialise-subscriber';
 import { subscriberReadMessageCallback } from '../subscriber-read-message-callback';
+import {options} from "../../../../config/logging";
 
 jest.mock('../../../../middleware/logging');
 jest.mock('../subscriber-read-message-callback');
@@ -110,7 +111,10 @@ describe('initialiseSubscriber', () => {
 
     it('should call subscriberReadMessageCallback with the mockChannel', () => {
       expect(subscriberReadMessageCallback).toHaveBeenCalledTimes(1);
-      expect(subscriberReadMessageCallback).toHaveBeenCalledWith(mockChannel);
+      expect(subscriberReadMessageCallback).toHaveBeenCalledWith(
+        { ack: 'auto', destination: 'mock-queue' },
+        mockChannel
+      );
     });
 
     it('should resolve with the client', () => {

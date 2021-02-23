@@ -1,5 +1,5 @@
 import { mockChannel, mockMessageStream } from '../../../../__mocks__/stompit';
-import { subscriberReadMessageCallbackWrapper } from '../subscriber-read-message-callback';
+import { subscriberReadMessageCallback } from '../subscriber-read-message-callback';
 import { logEvent, logError } from '../../../../middleware/logging';
 
 jest.mock('async-local-storage');
@@ -7,7 +7,11 @@ jest.mock('../../../../middleware/logging');
 jest.mock('../subscriber-on-message-callback');
 
 const mockError = 'mock-error';
-const mockCallback = subscriberReadMessageCallbackWrapper(mockChannel);
+const subscribeParams = {
+  destination: 'queueName'
+};
+
+const mockCallback = subscriberReadMessageCallback(subscribeParams, mockChannel);
 
 describe('subscriberReadMessageCallback', () => {
   describe('on success', () => {

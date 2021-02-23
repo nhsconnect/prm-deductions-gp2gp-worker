@@ -3,9 +3,6 @@ import { logger } from '../config/logging';
 export const logEvent = (status, event) => logger.info(status, { event });
 export const logError = (status, event) => logger.error(status, { event });
 
-export const logInfo = (status, event) => logger.info(status, event);
-export const logError = (status, event) => logger.error(status, event);
-
 export const middleware = (req, res, next) => {
   res.on('finish', () => eventFinished(req, res));
   next();
