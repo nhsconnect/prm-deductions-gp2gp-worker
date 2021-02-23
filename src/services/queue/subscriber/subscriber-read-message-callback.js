@@ -6,13 +6,18 @@ export const subscriberReadMessageCallback = (subscriberParams, channel) => (
   err,
   messageStream
 ) => {
-  logEvent('Subscriber has Received Message');
-  logger.info('Subscriber has Received Message', { Queue: subscriberParams.destination });
+  // logEvent('Subscriber has Received Message');
+  logger.log('INFO', 'Subscriber has Received Message', { Queue: subscriberParams.destination });
 
   if (err) {
-    logError(err);
+    logger.log('ERROR', 'Subscriber has not Received a Message');
+
+    // logError(err);
     return;
   }
 
-  messageStream.readString('UTF-8', subscriberOnMessageCallback(channel, messageStream));
+  messageStream.readString(
+    'UTF-8',
+    subscriberOnMessageCallback(channel, messageStream, subscriberParams)
+  );
 };
