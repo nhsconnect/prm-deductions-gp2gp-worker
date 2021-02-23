@@ -1,7 +1,7 @@
 import { initializeConfig } from '../../../config';
 import { logError, logEvent } from '../../../middleware/logging';
 import { channelPool } from '../helper';
-import { subscriberReadMessageCallback } from './subscriber-read-message-callback';
+import { subscriberReadMessageCallbackWrapper } from './subscriber-read-message-callback';
 
 export const initialiseSubscriber = (options = {}) => {
   const config = initializeConfig();
@@ -23,7 +23,10 @@ export const initialiseSubscriber = (options = {}) => {
         queue: subscribeParams
       });
 
-      channel.subscribe(subscribeParams, subscriberReadMessageCallback(channel));
+      channel.subscribe(
+        subscribeParams,
+        subscriberReadMessageCallbackWrapper(subscribeParams)(channel)
+      );
 
       resolve(channel);
     });

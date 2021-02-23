@@ -13,8 +13,14 @@ export const obfuscateSecrets = format(info => {
   return updated;
 });
 
+export const addCommonFields = format(info => {
+  const updated = cloneDeep(info);
+  updated['Service'] = 'gp2gp-worker';
+  return updated;
+});
+
 export const options = {
-  format: format.combine(obfuscateSecrets(), format.timestamp(), format.json()),
+  format: format.combine(obfuscateSecrets(), addCommonFields(), format.timestamp(), format.json()),
   transports: [new transports.Console({ handleExceptions: true })]
 };
 
