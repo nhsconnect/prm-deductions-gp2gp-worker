@@ -44,4 +44,17 @@ export const options = {
   colors: loggingLevels.colors
 };
 
-export const logger = createLogger(options);
+export const genericLogger = createLogger(options);
+export const queueLogger = createLogger(, ...options);
+export const httpLogger = createLogger(, ...options);
+
+
+export const createQueueLogger = (correlationId) => {
+  const options = {
+    format: format.combine(obfuscateSecrets(), addCommonFields(), addCorrelationId(correlationId), format.timestamp(), format.json()),
+    transports: [new transports.Console({ handleExceptions: true })],
+    levels: loggingLevels.levels,
+    colors: loggingLevels.colors
+  };
+  return createLogger(options)
+};

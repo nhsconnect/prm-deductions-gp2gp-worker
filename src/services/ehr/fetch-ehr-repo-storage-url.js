@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { initializeConfig } from '../../config';
-import { logError } from '../../middleware/logging';
+import { logger } from '../../config/logging';
 
 export const fetchStorageUrl = async body => {
   const config = initializeConfig();
@@ -13,7 +13,7 @@ export const fetchStorageUrl = async body => {
       }
     );
   } catch (err) {
-    logError('failed to get pre-signed url', { error: err.stack });
+    logger.ERROR('failed to get pre-signed url', { error: err.stack });
     throw err;
   }
 };

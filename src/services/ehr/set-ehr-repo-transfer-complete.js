@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { initializeConfig } from '../../config';
-import { logEvent, logError } from '../../middleware/logging';
+import { logger } from '../../config/logging';
 
 export const setTransferComplete = async body => {
   const config = initializeConfig();
@@ -13,10 +13,10 @@ export const setTransferComplete = async body => {
       },
       { headers: { Authorization: `${config.ehrRepoAuthKeys}` } }
     );
-    logEvent('setTransferComplete success', { ehrRepository: { transferSuccessful: true } });
+    logger.log('INFO', 'setTransferComplete success', { ehrRepository: { transferSuccessful: true } });
     return response;
   } catch (err) {
-    logError('failed to update transfer complete to ehr repo api', {
+    logger.log('ERROR', 'failed to update transfer complete to ehr repo api', {
       error: err
     });
     throw err;

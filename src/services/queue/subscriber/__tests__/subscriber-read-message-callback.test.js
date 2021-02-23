@@ -1,6 +1,6 @@
 import { mockChannel, mockMessageStream } from '../../../../__mocks__/stompit';
 import { subscriberReadMessageCallback } from '../subscriber-read-message-callback';
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logger } from '../../../../config/logging';
 
 jest.mock('async-local-storage');
 jest.mock('../../../../middleware/logging');
@@ -20,8 +20,8 @@ describe('subscriberReadMessageCallback', () => {
     });
 
     it('should call logEvent', () => {
-      expect(logEvent).toHaveBeenCalledTimes(1);
-      expect(logEvent).toHaveBeenCalledWith('Subscriber has Received Message');
+      expect(logger.log).toHaveBeenCalledTimes(1);
+      expect(logger.log).toHaveBeenCalledWith('Subscriber has Received Message');
     });
 
     it('should set the readString with callback', () => {
@@ -36,12 +36,12 @@ describe('subscriberReadMessageCallback', () => {
     });
 
     it('should call logEvent', () => {
-      expect(logEvent).toHaveBeenCalledTimes(1);
-      expect(logEvent).toHaveBeenCalledWith('Subscriber has Received Message');
+      expect(logger.log).toHaveBeenCalledTimes(1);
+      expect(logger.log).toHaveBeenCalledWith('Subscriber has Received Message');
     });
 
     it('should call logError', () => {
-      expect(logError).toHaveBeenCalledTimes(1);
+      expect(logger.log).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { initializeConfig } from '../../config';
-import { logError } from '../../middleware/logging';
+import { logger } from '../../config/logging';
 
 export const sendEhrMessageReceived = async (conversationId, messageId) => {
   const config = initializeConfig();
@@ -14,7 +14,7 @@ export const sendEhrMessageReceived = async (conversationId, messageId) => {
   } catch (err) {
     const errorMessage = `PATCH ${url} - ${err.message || 'Request failed'}`;
     const axiosError = new Error(errorMessage);
-    logError(errorMessage, err);
+    logger.log('ERROR', errorMessage, err);
     throw axiosError;
   }
 };

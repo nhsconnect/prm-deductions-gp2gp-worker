@@ -1,5 +1,4 @@
 import { initializeConfig } from '../../../config';
-import { logError, logEvent } from '../../../middleware/logging';
 import { logger } from '../../../config/logging';
 import { channelPool } from '../helper';
 import { subscriberReadMessageCallback } from './subscriber-read-message-callback';
@@ -10,7 +9,6 @@ export const initialiseSubscriber = (options = {}) => {
   return new Promise((resolve, reject) => {
     channelPool.channel((err, channel) => {
       if (err) {
-        // logError('initialiseSubscriber error', err);
         logger.log('ERROR', 'initialiseSubscriber error', err);
         reject(err);
       }

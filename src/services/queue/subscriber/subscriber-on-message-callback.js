@@ -1,11 +1,9 @@
-import { logger } from '../../../config/logging';
+import { createQueueLogger } from '../../../config/logging';
 import { handleMessage } from './';
 
 export const subscriberOnMessageCallback = (channel, message) => async (err, body) => {
-  logger.log('INFO', 'Handling Message', {
-    CorrelationId: message.headers['correlation-id'],
-    Queue: message.headers['destination']
-  });
+  const logger = createQueueLogger(message.headers['correlation-id'], message.headers['destination']);
+  logger.INFO('Handling Message');
 
   if (err) {
     logger.log('ERROR', 'subscriberOnMessageCallback error', { err });

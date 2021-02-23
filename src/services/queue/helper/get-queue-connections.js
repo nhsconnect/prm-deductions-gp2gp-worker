@@ -1,6 +1,6 @@
 import { ConnectFailover } from 'stompit';
 import { getStompitQueueConfig } from '../../../config/utils';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logger } from '../../../config/logging';
 
 export const getQueueConnections = () => {
   const connections = new ConnectFailover(getStompitQueueConfig(), {
@@ -9,7 +9,7 @@ export const getQueueConnections = () => {
   });
 
   connections.on('connecting', connector => {
-    logEvent('Connecting to Queue', {
+    logger.log('INFO', 'Connecting to Queue', {
       queue: {
         transportPath: connector.serverProperties.remoteAddress.transportPath
       }

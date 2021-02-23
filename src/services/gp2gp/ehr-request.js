@@ -1,4 +1,4 @@
-import { logError, logEvent } from '../../middleware/logging';
+import { logger } from '../../config/logging';
 import { parseMultipartBody } from '../parser';
 import { extractNhsNumber } from '../parser/message';
 import { sendEhrRequest } from '../repo-to-gp/send-ehr-request';
@@ -16,7 +16,7 @@ export class EhrRequest {
 
   async handleMessage(message) {
     try {
-      logEvent(`Parsing ${this.interactionId} Message`, {
+      logger.log('INFO', `Parsing ${this.interactionId} Message`, {
         parser: {
           name: this.name,
           interactionId: this.interactionId
@@ -29,11 +29,11 @@ export class EhrRequest {
       const ehrRequestId = await extractEhrRequestId(content.body);
       const conversationId = await extractConversationId(envelope.body);
 
-      logEvent(`Parsed EHR Request message`);
+      logger.log('INFO', `Parsed EHR Request message`);
 
       await sendEhrRequest(nhsNumber, conversationId, odsCode, ehrRequestId);
     } catch (err) {
-      logError('handleMessage failed', err);
+      logger.log('ERROR', 'handleMessage failed', err);
     }
   }
 }
