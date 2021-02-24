@@ -60,7 +60,7 @@ export const genericOptions = {
 export const logger = createLogger(genericOptions);
 
 export const addQueueContext = (correlationId, queue) => {
-  const enhancedFormat = format.combine(...commonOptions, addQueueFields({ correlationId, queue }));
+  const enhancedFormat = format.combine(addQueueFields({ correlationId, queue }), ...commonOptions);
   const options = {
     ...genericOptions,
     format: enhancedFormat
