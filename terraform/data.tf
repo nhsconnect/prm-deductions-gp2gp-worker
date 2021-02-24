@@ -51,3 +51,7 @@ data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_repo_to_gp" {
 data "aws_ssm_parameter" "gp2gp_worker_repo_to_gp_url" {
   name = "/repo/${var.environment}/output/prm-deductions-repo-to-gp/repo-to-gp-service-url"
 }
+
+data "aws_ssm_parameter" "use_new_ehr_repo_api" {
+  name = "/repo/${var.environment}/user-input/feature-toggle/use-new-ehr-repo-api"
+}
