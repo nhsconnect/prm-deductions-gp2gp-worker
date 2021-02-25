@@ -43,7 +43,7 @@ export const options = {
 
 export const logger = createLogger(options);
 
-export const logError = (status, error) => logger.error(status, { error: error.message });
+export const logError = (status, error) => logger.error(status, error);
 export const logWarning = status => logger.warn(status);
 export const logInfo = status => logger.info(status);
 export const logDebug = status => logger.debug(status);
