@@ -34,9 +34,9 @@ Content-Transfer-Encoding: 8bit
     </SOAP-ENV:Envelope>
 
     ------=_MIME-Boundary
-  Content-Type: application/xml
-  Content-ID: <50D33D75-04C6-40AF-947D-E6E9656C1EEB@inps.co.uk/Vision/3>
-  Content-Transfer-Encoding: 8bit
+Content-Type: application/xml
+Content-ID: <50D33D75-04C6-40AF-947D-E6E9656C1EEB@inps.co.uk/Vision/3>
+Content-Transfer-Encoding: 8bit
 
   <RCMR_IN030000UK06>
     <id root="${messageId}"/>

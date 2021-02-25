@@ -92,6 +92,18 @@ describe('Should read messages from the queue successfully', () => {
     const mockEhrRepoUrl = 'http://localhost';
     const mockEhrRepoAuthKeys = 'ehr-fake-keys';
     const headers = { reqheaders: { Authorization: `${mockEhrRepoAuthKeys}` } };
+    const postRequestBody = {
+      data: {
+        type: 'messages',
+        id: messageId,
+        attributes: {
+          conversationId,
+          messageType: 'ehrExtract',
+          nhsNumber,
+          attachmentMessageIds: []
+        }
+      }
+    };
 
     beforeEach(() => {
       initializeConfig.mockReturnValue({
@@ -118,6 +130,8 @@ describe('Should read messages from the queue successfully', () => {
 
       const putScope = nock(s3BasePath).put('/some-url').reply(200);
 
+      const postScope = nock(mockEhrRepoUrl, headers).post('/messages', postRequestBody).reply(201);
+
       await sendToQueue(ehrRequestCompletedMessage, {
         destination: uniqueQueueName
       });
@@ -125,6 +139,7 @@ describe('Should read messages from the queue successfully', () => {
 
       expect(scope.isDone()).toBe(true);
       expect(putScope.isDone()).toBe(true);
+      expect(postScope.isDone()).toBe(true);
     });
   });
 });

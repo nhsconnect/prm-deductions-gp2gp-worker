@@ -5,16 +5,33 @@ import { logEvent, logError } from '../../middleware/logging';
 export const setTransferComplete = async body => {
   const config = initializeConfig();
   try {
-    const response = await axios.patch(
-      `${config.ehrRepoUrl}/fragments`,
-      {
-        conversationId: body.conversationId,
-        transferComplete: true
-      },
-      { headers: { Authorization: `${config.ehrRepoAuthKeys}` } }
-    );
+    if (config.useNewEhrRepoApi) {
+      const requestBody = {
+        data: {
+          type: 'messages',
+          id: body.messageId,
+          attributes: {
+            conversationId: body.conversationId,
+            messageType: 'ehrExtract',
+            nhsNumber: body.nhsNumber,
+            attachmentMessageIds: []
+          }
+        }
+      };
+      await axios.post(`${config.ehrRepoUrl}/messages`, requestBody, {
+        headers: { Authorization: `${config.ehrRepoAuthKeys}` }
+      });
+    } else {
+      await axios.patch(
+        `${config.ehrRepoUrl}/fragments`,
+        {
+          conversationId: body.conversationId,
+          transferComplete: true
+        },
+        { headers: { Authorization: `${config.ehrRepoAuthKeys}` } }
+      );
+    }
     logEvent('setTransferComplete success', { ehrRepository: { transferSuccessful: true } });
-    return response;
   } catch (err) {
     logError('failed to update transfer complete to ehr repo api', {
       error: err
