@@ -4,13 +4,16 @@ import httpContext from 'async-local-storage';
 import { initialiseSubscriber } from '../subscriber';
 import { clearQueue, consumeOneMessage } from '../helper';
 import { sendToQueue } from '../publisher';
+import { initializeConfig } from '../../../config';
 import {
   conversationId,
   nhsNumber,
   odsCode,
   ehrRequestMessage,
   pdsGeneralUpdateRequestAcceptedMessage,
-  ehrRequestId
+  ehrRequestId,
+  messageId,
+  ehrRequestCompletedMessage
 } from '../subscriber/__tests__/data/subscriber';
 
 httpContext.enable();
@@ -82,6 +85,46 @@ describe('Should read messages from the queue successfully', () => {
       });
       await consumeOneMessage({ destination: uniqueQueueName });
       expect(scope.isDone()).toBe(true);
+    });
+  });
+
+  describe('Handles EHR Extract', () => {
+    const mockEhrRepoUrl = 'http://localhost';
+    const mockEhrRepoAuthKeys = 'ehr-fake-keys';
+    const headers = { reqheaders: { Authorization: `${mockEhrRepoAuthKeys}` } };
+
+    beforeEach(() => {
+      initializeConfig.mockReturnValue({
+        useNewEhrRepoApi: true,
+        ehrRepoUrl: 'http://localhost',
+        ehrRepoAuthKeys: 'ehr-fake-keys',
+        gpToRepoAuthKeys: 'fake-keys',
+        gpToRepoUrl: 'http://localhost',
+        repoToGpAuthKeys: 'more-fake-keys',
+        repoToGpUrl: 'http://localhost',
+        queueUrls: [
+          process.env.GP2GP_WORKER_MHS_QUEUE_URL_1,
+          process.env.GP2GP_WORKER_MHS_QUEUE_URL_2
+        ]
+      });
+    });
+
+    it('should fetch presigned url', async () => {
+      const s3BasePath = 'http://localhost';
+
+      const scope = nock(mockEhrRepoUrl, headers)
+        .get(`/messages/${conversationId}/${messageId}`)
+        .reply(200, `${s3BasePath}/some-url`);
+
+      const putScope = nock(s3BasePath).put('/some-url').reply(200);
+
+      await sendToQueue(ehrRequestCompletedMessage, {
+        destination: uniqueQueueName
+      });
+      await consumeOneMessage({ destination: uniqueQueueName });
+
+      expect(scope.isDone()).toBe(true);
+      expect(putScope.isDone()).toBe(true);
     });
   });
 });

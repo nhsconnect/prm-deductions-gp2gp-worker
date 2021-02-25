@@ -2,10 +2,12 @@ import axios from 'axios';
 import { initializeConfig } from '../../../config';
 import { logEvent, logError } from '../../../middleware/logging';
 import { storeMessageInEhrRepo } from '../store-message-in-ehr-repo';
+import { fetchStorageUrl } from '../fetch-ehr-repo-storage-url';
 
 jest.mock('axios');
 jest.mock('../../../config');
 jest.mock('../../../middleware/logging');
+jest.mock('../fetch-ehr-repo-storage-url');
 
 describe('storeMessageInEhrRepo', () => {
   const message = 'some-message';
@@ -19,36 +21,14 @@ describe('storeMessageInEhrRepo', () => {
     axios.patch.mockResolvedValue({ status: 200 });
     axios.put.mockResolvedValue({ status: 200 });
     axios.post.mockResolvedValue({ data: 'some-url' });
+    fetchStorageUrl.mockResolvedValue({ data: 'some-url' });
   });
 
   describe('get pre-signed url from EHR Repository', () => {
-    it('should make request with conversation id, manifest (array of messageIds) and message id', async done => {
-      await storeMessageInEhrRepo(message, { conversationId, messageId, manifest });
-      expect(axios.post).toHaveBeenCalledWith(
-        `${mockEhrRepoUrl}/fragments`,
-        expect.objectContaining({
-          messageId,
-          conversationId,
-          manifest
-        }),
-        expect.anything()
-      );
-      done();
-    });
-
-    it('should make a request with manifest being an array of messageIds', async done => {
-      const noNhsNumber = `<eb:Body></eb:Body>`;
-      await storeMessageInEhrRepo(noNhsNumber, {
-        conversationId,
-        messageId,
-        manifest
-      });
-      expect(axios.post).toHaveBeenCalledWith(
-        `${mockEhrRepoUrl}/fragments`,
-        expect.not.objectContaining({ nhsNumber: undefined }),
-        expect.anything()
-      );
-      done();
+    it('should make request with conversation id, manifest (array of messageIds) and message id', async () => {
+      const soapInformation = { conversationId, messageId, manifest };
+      await storeMessageInEhrRepo(message, soapInformation);
+      expect(fetchStorageUrl).toHaveBeenCalledWith(soapInformation);
     });
   });
 

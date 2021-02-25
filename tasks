@@ -28,6 +28,25 @@ function check_nhs_service {
   fi
 }
 
+function prepare_local_envs_for_ide {
+  export GP2GP_WORKER_MHS_QUEUE_URL_1=tcp://localhost:61620
+  export GP2GP_WORKER_MHS_QUEUE_URL_2=tcp://localhost:61621
+  envs=$(printenv | grep "NODE_ENV" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_URL_1" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_URL_2" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_USERNAME" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_PASSWORD" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_NAME" && \
+          printenv | grep "GP2GP_WORKER_MHS_QUEUE_VIRTUAL_HOST" && \
+          printenv | grep "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_GP_TO_REPO" && \
+          printenv | grep "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_REPO_TO_GP" && \
+          printenv | grep "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_EHR_REPO"
+  )
+
+  echo "Paste these env vars to your Intelij run template:"
+  echo $envs | tr ' ' ';'
+}
+
 function configure_local_envs {
   export GP2GP_WORKER_MHS_QUEUE_URL_1=tcp://mq-1:61613
   export GP2GP_WORKER_MHS_QUEUE_URL_2=tcp://mq-2:61613
@@ -204,6 +223,10 @@ case "${command}" in
       configure_local_envs
       dojo -c Dojofile-itest "./tasks _test_coverage"
       ;;
+  _setup_test_integration_local)
+    configure_local_envs
+    prepare_local_envs_for_ide
+    ;;
   build_docker_local)
       configure_local_envs
       build_docker_image
