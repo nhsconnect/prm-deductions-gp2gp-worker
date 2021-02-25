@@ -1,10 +1,10 @@
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logInfo, logError } from '../../../../config/logging';
 import { mockChannel } from '../../../../__mocks__/stompit';
 import { channelPool } from '../../helper';
 import { initialiseSubscriber } from '../initialise-subscriber';
 import { subscriberReadMessageCallback } from '../subscriber-read-message-callback';
 
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 jest.mock('../subscriber-read-message-callback');
 jest.mock('../../helper/connect-to-queue');
 jest.mock('../../../../config', () => ({
@@ -31,9 +31,9 @@ describe('initialiseSubscriber', () => {
       done();
     });
 
-    it('should call logEvent with new queueName when passed in', async done => {
+    it('should call logInfo with new queueName when passed in', async done => {
       await initialiseSubscriber({ destination: 'new-queue-name' });
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         'Initialising Subscriber',
         expect.objectContaining({
           queue: expect.objectContaining({
@@ -44,9 +44,9 @@ describe('initialiseSubscriber', () => {
       done();
     });
 
-    it('should call logEvent with new ack type when passed in', async done => {
+    it('should call logInfo with new ack type when passed in', async done => {
       await initialiseSubscriber({ ack: 'client' });
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         'Initialising Subscriber',
         expect.objectContaining({
           queue: expect.objectContaining({
@@ -63,14 +63,14 @@ describe('initialiseSubscriber', () => {
       await initialiseSubscriber();
     });
 
-    it('should call logEvent with "Subscribing to MQ"', () => {
-      expect(logEvent).toHaveBeenCalledTimes(1);
-      expect(logEvent).toHaveBeenCalledWith('Initialising Subscriber', expect.anything());
+    it('should call logInfo with "Subscribing to MQ"', () => {
+      expect(logInfo).toHaveBeenCalledTimes(1);
+      expect(logInfo).toHaveBeenCalledWith('Initialising Subscriber', expect.anything());
     });
 
-    it('should call logEvent with the queue name', () => {
-      expect(logEvent).toHaveBeenCalledTimes(1);
-      expect(logEvent).toHaveBeenCalledWith(
+    it('should call logInfo with the queue name', () => {
+      expect(logInfo).toHaveBeenCalledTimes(1);
+      expect(logInfo).toHaveBeenCalledWith(
         'Initialising Subscriber',
         expect.objectContaining({
           queue: expect.objectContaining({ destination: mockQueueName })
@@ -78,9 +78,9 @@ describe('initialiseSubscriber', () => {
       );
     });
 
-    it('should call logEvent with queue ack', () => {
-      expect(logEvent).toHaveBeenCalledTimes(1);
-      expect(logEvent).toHaveBeenCalledWith(
+    it('should call logInfo with queue ack', () => {
+      expect(logInfo).toHaveBeenCalledTimes(1);
+      expect(logInfo).toHaveBeenCalledWith(
         'Initialising Subscriber',
         expect.objectContaining({
           queue: expect.objectContaining({ ack: 'auto' })

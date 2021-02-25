@@ -1,5 +1,5 @@
 import { initializeConfig } from '../../../config';
-import { logError, logEvent } from '../../../middleware/logging';
+import { logError, logInfo } from '../../../config/logging';
 import { channelPool } from '../helper';
 import { subscriberReadMessageCallback } from './subscriber-read-message-callback';
 
@@ -19,7 +19,7 @@ export const initialiseSubscriber = (options = {}) => {
         ...options
       };
 
-      logEvent('Initialising Subscriber', {
+      logInfo('Initialising Subscriber', {
         queue: subscribeParams
       });
 

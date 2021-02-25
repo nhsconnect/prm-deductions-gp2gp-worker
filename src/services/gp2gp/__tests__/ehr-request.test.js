@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { EhrRequest } from '../ehr-request';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { parseMultipartBody } from '../../parser';
 import { extractNhsNumber } from '../../parser/message';
 import { sendEhrRequest } from '../../repo-to-gp/send-ehr-request';
@@ -8,7 +8,7 @@ import { extractOdsCode } from '../../parser/message/extract-ods-code';
 import { extractConversationId } from '../../parser/soap';
 import { extractEhrRequestId } from '../../parser/message/extract-ehr-request-id';
 
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 jest.mock('../../repo-to-gp/send-ehr-request');
 jest.mock('../../parser/message/extract-nhs-number');
 jest.mock('../../parser/soap/extract-conversation-id');
@@ -37,13 +37,13 @@ describe('EhrRequest', () => {
   });
 
   describe('handleMessage', () => {
-    it('should logEvent when handleMessage is called', async () => {
+    it('should logInfo when handleMessage is called', async () => {
       extractConversationId.mockResolvedValue(expectedConversationId);
       extractNhsNumber.mockResolvedValue(expectedNhsNumber);
       extractOdsCode.mockResolvedValue(expectedOdsCode);
       await ehrRequest.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledTimes(2);
-      expect(logEvent).toBeCalledWith('Parsing RCMR_IN010000UK05 Message', expect.anything());
+      expect(logInfo).toHaveBeenCalledTimes(2);
+      expect(logInfo).toBeCalledWith('Parsing RCMR_IN010000UK05 Message', expect.anything());
     });
 
     it('should call parseMultipartBody', async () => {
@@ -82,7 +82,7 @@ describe('EhrRequest', () => {
       extractOdsCode.mockResolvedValue(expectedOdsCode);
       extractEhrRequestId.mockResolvedValue(expectedEhrRequestId);
       await ehrRequest.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledTimes(2);
+      expect(logInfo).toHaveBeenCalledTimes(2);
       expect(sendEhrRequest).toHaveBeenCalledTimes(1);
       expect(sendEhrRequest).toBeCalledWith(
         expectedNhsNumber,

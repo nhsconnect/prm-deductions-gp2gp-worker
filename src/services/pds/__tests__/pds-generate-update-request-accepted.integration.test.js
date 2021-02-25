@@ -4,7 +4,7 @@ import {
   messageWithoutMessageId
 } from './data/pds-generate-update-request-accepted';
 
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('PDSGeneralUpdateRequestAccepted', () => {
   describe('handleMessage', () => {

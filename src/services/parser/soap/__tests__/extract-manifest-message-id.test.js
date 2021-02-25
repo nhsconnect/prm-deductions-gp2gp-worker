@@ -1,4 +1,4 @@
-import { logError } from '../../../../middleware/logging';
+import { logError } from '../../../../config/logging';
 import { extractManifestAsMessageIds } from '../extract-manifest-message-id';
 import {
   manifestIdNotUuid,
@@ -7,7 +7,7 @@ import {
   singleManifestReference
 } from './data/extract-manifest-info';
 
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 
 describe('extractManifestAsMessageIds', () => {
   it('should return an empty array if passing in message with no manifest', () => {

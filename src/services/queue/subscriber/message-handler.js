@@ -1,4 +1,4 @@
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../gp2gp';
 import { EhrRequest, EHR_REQUEST } from '../../gp2gp/ehr-request';
 import { parseMultipartBody } from '../../parser';
@@ -11,7 +11,7 @@ export const handleMessage = async message => {
 
   try {
     const multipartMessage = parseMultipartBody(message);
-    logEvent('Extracting Action from Message', {
+    logInfo('Extracting Action from Message', {
       messageHeaders: multipartMessage.map(message => message.headers || 'unknown')
     });
     interactionId = await extractAction(multipartMessage[0].body);
@@ -20,7 +20,7 @@ export const handleMessage = async message => {
     interactionId = 'undefined';
   }
 
-  logEvent(`interactionId: ${interactionId}`);
+  logInfo(`interactionId: ${interactionId}`);
 
   let handler;
 

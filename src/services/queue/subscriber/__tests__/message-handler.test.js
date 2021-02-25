@@ -1,5 +1,5 @@
 import { DefaultMessage, handleMessage } from '../';
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logInfo, logError } from '../../../../config/logging';
 import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../../gp2gp';
 import { parseMultipartBody } from '../../../parser';
 import { PDSGeneralUpdateRequestAccepted, PDS_GENERAL_UPDATE_REQUEST_ACCEPTED } from '../../../pds';
@@ -12,7 +12,7 @@ import {
   unhandledInteractionId
 } from './data/message-handler';
 
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 jest.mock('../../../gp2gp/ehr-request-completed');
 jest.mock('../../../pds/pds-general-update-request-accepted');
 jest.mock('../default-message');
@@ -41,9 +41,9 @@ describe('handleMessage', () => {
       done();
     });
 
-    it('should logEvent with the correct interactionId', async done => {
+    it('should logInfo with the correct interactionId', async done => {
       await handleMessage(ehrRequestCompletedMessage);
-      expect(logEvent).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST_COMPLETED}`);
+      expect(logInfo).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST_COMPLETED}`);
       done();
     });
   });
@@ -64,9 +64,9 @@ describe('handleMessage', () => {
       expect(EhrRequest.prototype.handleMessage).toHaveBeenCalledWith(ehrRequestMessage);
     });
 
-    it('should logEvent with the correct interactionId', async done => {
+    it('should logInfo with the correct interactionId', async done => {
       await handleMessage(ehrRequestMessage);
-      expect(logEvent).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST}`);
+      expect(logInfo).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST}`);
       done();
     });
   });
@@ -93,11 +93,9 @@ describe('handleMessage', () => {
       done();
     });
 
-    it('should logEvent with the correct interactionId', async done => {
+    it('should logInfo with the correct interactionId', async done => {
       await handleMessage(pdsGeneralUpdateRequestAcceptedMessage);
-      expect(logEvent).toHaveBeenCalledWith(
-        `interactionId: ${PDS_GENERAL_UPDATE_REQUEST_ACCEPTED}`
-      );
+      expect(logInfo).toHaveBeenCalledWith(`interactionId: ${PDS_GENERAL_UPDATE_REQUEST_ACCEPTED}`);
       done();
     });
   });
@@ -151,16 +149,16 @@ describe('handleMessage', () => {
       done();
     });
 
-    it('should call logEvent with status of "Extracting Action from Message"', async done => {
+    it('should call logInfo with status of "Extracting Action from Message"', async done => {
       await handleMessage(unhandledInteractionId);
-      expect(logEvent).toHaveBeenCalledWith('Extracting Action from Message', expect.anything());
+      expect(logInfo).toHaveBeenCalledWith('Extracting Action from Message', expect.anything());
       done();
     });
 
-    it('should call logEvent with the multipart message headers', async done => {
+    it('should call logInfo with the multipart message headers', async done => {
       await handleMessage(unhandledInteractionId);
       const multipartMessage = await parseMultipartBody(unhandledInteractionId);
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         'Extracting Action from Message',
         expect.objectContaining({
           messageHeaders: multipartMessage.map(message => message.headers || 'unknown')
@@ -175,9 +173,9 @@ describe('handleMessage', () => {
       done();
     });
 
-    it('should logEvent with the correct interactionId', async done => {
+    it('should logInfo with the correct interactionId', async done => {
       await handleMessage('anything');
-      expect(logEvent).toHaveBeenCalledWith(`interactionId: undefined`);
+      expect(logInfo).toHaveBeenCalledWith(`interactionId: undefined`);
       done();
     });
   });

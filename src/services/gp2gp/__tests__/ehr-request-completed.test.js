@@ -4,7 +4,7 @@ import { extractNhsNumber } from '../../parser/message';
 import { parseMultipartBody } from '../../parser';
 import { soapEnvelopeHandler } from '../../soap';
 import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../ehr-request-completed';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { sendEhrMessageReceived } from '../../gp-to-repo/send-ehr-message-received';
 
 jest.mock('../../parser/multipart-parser', () => ({
@@ -22,7 +22,7 @@ jest.mock('../../parser/message/extract-nhs-number', () => ({
 }));
 
 jest.mock('../../ehr/store-message-in-ehr-repo');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 jest.mock('../../gp-to-repo/send-ehr-message-received');
 
 const ehrRequestCompleted = new EHRRequestCompleted();
@@ -89,7 +89,7 @@ describe('EHRRequestCompleted', () => {
 
       expect(storeMessageInEhrRepo).toHaveBeenCalledTimes(1);
       expect(sendEhrMessageReceived).toHaveBeenCalledWith(conversationId, messageId);
-      expect(logEvent).toHaveBeenCalledWith('EHR Message Received Notification sent');
+      expect(logInfo).toHaveBeenCalledWith('EHR Message Received Notification sent');
     });
 
     it('should not send ehr message received notification when storeMessageInEhrRepo unsuccessful', async () => {
@@ -119,17 +119,17 @@ describe('EHRRequestCompleted', () => {
       expect(logError).toHaveBeenCalled();
     });
 
-    it('should call logEvent with status as "Parsing RCMR_IN030000UK06 Message"', async () => {
+    it('should call logInfo with status as "Parsing RCMR_IN030000UK06 Message"', async () => {
       await ehrRequestCompleted.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         `Parsing ${ehrRequestCompleted.interactionId} Message`,
         expect.anything()
       );
     });
 
-    it('should call logEvent with the parser information', async () => {
+    it('should call logInfo with the parser information', async () => {
       await ehrRequestCompleted.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         `Parsing ${ehrRequestCompleted.interactionId} Message`,
         expect.objectContaining({
           parser: expect.objectContaining({
@@ -140,14 +140,14 @@ describe('EHRRequestCompleted', () => {
       );
     });
 
-    it('should call logEvent with the status as "SOAP Information Extracted"', async () => {
+    it('should call logInfo with the status as "SOAP Information Extracted"', async () => {
       await ehrRequestCompleted.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledWith('SOAP Information Extracted', expect.anything());
+      expect(logInfo).toHaveBeenCalledWith('SOAP Information Extracted', expect.anything());
     });
 
-    it('should call logEvent with messageDetails', async () => {
+    it('should call logInfo with messageDetails', async () => {
       await ehrRequestCompleted.handleMessage(mockMessage);
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         'SOAP Information Extracted',
         expect.objectContaining({
           messageDetails: expect.any(Object)

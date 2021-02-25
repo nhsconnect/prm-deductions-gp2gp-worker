@@ -1,9 +1,9 @@
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logInfo, logError } from '../../../../config/logging';
 import { mockChannel, mockTransaction } from '../../../../__mocks__/stompit';
 import { channelPool } from '../../helper';
 import { sendToQueue } from '../send-to-queue';
 
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 jest.mock('../../../../config', () => ({
   initializeConfig: jest.fn().mockReturnValue({
     queueName: 'mocked-queue-name',
@@ -26,8 +26,8 @@ describe('sendToQueue', () => {
       await sendToQueue(message).catch(() => {});
     });
 
-    it('should call logEvent with "Sending message to Queue"', () => {
-      expect(logEvent).toHaveBeenCalledWith('Sending Message to Queue');
+    it('should call logInfo with "Sending message to Queue"', () => {
+      expect(logInfo).toHaveBeenCalledWith('Sending Message to Queue');
     });
 
     it('should call channelPool.channel', () => {
@@ -80,8 +80,8 @@ describe('sendToQueue', () => {
       expect(mockChannel.close).toHaveBeenCalledTimes(1);
     });
 
-    it('should logEvent when message has been sent successfully', () => {
-      expect(logEvent).toHaveBeenCalledWith('Sent Message Successfully');
+    it('should logInfo when message has been sent successfully', () => {
+      expect(logInfo).toHaveBeenCalledWith('Sent Message Successfully');
     });
   });
 

@@ -1,8 +1,8 @@
-import { logError, logEvent } from '../../../middleware/logging';
+import { logError, logInfo } from '../../../config/logging';
 import { handleMessage } from './';
 
 export const subscriberOnMessageCallback = (channel, message) => async (err, body) => {
-  logEvent('Handling Message', { queue: { messageId: message.id } });
+  logInfo('Handling Message', { queue: { messageId: message.id } });
 
   if (err) {
     logError('subscriberOnMessageCallback error', { err });

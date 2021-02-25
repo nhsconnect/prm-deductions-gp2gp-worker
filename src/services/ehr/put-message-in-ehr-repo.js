@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { logEvent, logError } from '../../middleware/logging';
+import { logInfo, logError } from '../../config/logging';
 
 export const putMessageInEhrRepo = async (url, message) => {
   try {
     const response = await axios.put(url, message);
-    logEvent('putMessageInEhrRepo success', {
+    logInfo('putMessageInEhrRepo success', {
       ehrRepository: { responseCode: response.status, responseMessage: response.statusText }
     });
     return response;

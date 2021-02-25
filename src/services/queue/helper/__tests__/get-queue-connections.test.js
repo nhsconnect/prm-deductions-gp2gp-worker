@@ -2,10 +2,10 @@ import { getQueueConnections } from '../get-queue-connections';
 import { ConnectFailover } from 'stompit';
 import { getStompitQueueConfig } from '../../../../config/utils';
 import { mockOn } from '../../../../__mocks__/stompit';
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logInfo, logError } from '../../../../config/logging';
 import { when } from 'jest-when';
 
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 
 const transportPath = 'transportPath';
 
@@ -81,14 +81,14 @@ describe('getQueueConnections', () => {
   });
 
   describe('onConnecting event emitter', () => {
-    it('should call logEvent with updated status when connecting', () => {
+    it('should call logInfo with updated status when connecting', () => {
       getQueueConnections();
-      expect(logEvent).toHaveBeenCalledWith('Connecting to Queue', expect.anything());
+      expect(logInfo).toHaveBeenCalledWith('Connecting to Queue', expect.anything());
     });
 
-    it('should call logEvent with updated status when connecting', () => {
+    it('should call logInfo with updated status when connecting', () => {
       getQueueConnections();
-      expect(logEvent).toHaveBeenCalledWith(
+      expect(logInfo).toHaveBeenCalledWith(
         'Connecting to Queue',
         expect.objectContaining({
           queue: expect.objectContaining({

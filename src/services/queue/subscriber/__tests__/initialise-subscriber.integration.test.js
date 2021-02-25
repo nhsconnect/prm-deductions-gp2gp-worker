@@ -16,7 +16,7 @@ jest.unmock('stompit');
 jest.unmock('uuid');
 jest.mock('../../../gp2gp/ehr-request-completed');
 jest.mock('../../../pds/pds-general-update-request-accepted');
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 
 describe('initialiseConsumer', () => {
   let uniqueQueueName;

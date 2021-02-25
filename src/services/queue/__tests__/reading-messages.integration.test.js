@@ -18,7 +18,7 @@ import {
 
 httpContext.enable();
 
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 jest.unmock('stompit');
 jest.mock('../../../config', () => ({
   initializeConfig: jest.fn().mockReturnValue({

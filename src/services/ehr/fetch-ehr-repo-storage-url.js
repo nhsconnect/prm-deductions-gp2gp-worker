@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { initializeConfig } from '../../config';
-import { logError } from '../../middleware/logging';
+import { logError } from '../../config/logging';
 
 export const fetchStorageUrl = async body => {
   const config = initializeConfig();

@@ -3,7 +3,7 @@ import { initializeConfig } from '../../../config';
 import { sendPdsUpdate } from '../';
 
 jest.mock('axios');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 jest.mock('../../../config');
 
 describe('sendPdsUpdate', () => {

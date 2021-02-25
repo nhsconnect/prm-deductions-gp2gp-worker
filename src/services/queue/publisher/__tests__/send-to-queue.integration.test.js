@@ -5,7 +5,7 @@ import { Readable } from 'stream';
 
 jest.unmock('stompit');
 jest.unmock('uuid');
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 
 const firstMockMessage = 'message';
 const secondMockMessage = 'another-message';

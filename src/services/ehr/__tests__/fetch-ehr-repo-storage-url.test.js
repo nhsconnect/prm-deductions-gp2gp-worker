@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { v4 } from 'uuid';
 import { initializeConfig } from '../../../config';
-import { logError } from '../../../middleware/logging';
+import { logError } from '../../../config/logging';
 import { fetchStorageUrl } from '../fetch-ehr-repo-storage-url';
 
 jest.mock('axios');
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('fetchStorageUrl', () => {
   describe('fetchStorageUrl old api', () => {

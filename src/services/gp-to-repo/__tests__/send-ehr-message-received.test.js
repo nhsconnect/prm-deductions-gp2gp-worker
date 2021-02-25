@@ -5,7 +5,7 @@ import { sendEhrMessageReceived } from '../send-ehr-message-received';
 
 jest.mock('axios');
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('sendEhrMessageReceived', () => {
   const conversationId = uuid();

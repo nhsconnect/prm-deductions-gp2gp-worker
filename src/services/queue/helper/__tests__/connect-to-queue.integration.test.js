@@ -1,8 +1,8 @@
 import { connectToQueue } from '../';
-import { logError } from '../../../../middleware/logging';
+import { logError } from '../../../../config/logging';
 
 jest.unmock('stompit');
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 jest.mock('../../../../config', () => ({
   initializeConfig: jest.fn().mockReturnValue({
     queueUrls: ['tcp://mq-1:1234']

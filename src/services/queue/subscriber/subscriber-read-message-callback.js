@@ -1,8 +1,8 @@
 import { subscriberOnMessageCallback } from './subscriber-on-message-callback';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 
 export const subscriberReadMessageCallback = channel => (err, messageStream) => {
-  logEvent('Subscriber has Received Message');
+  logInfo('Subscriber has Received Message');
 
   if (err) {
     logError(err);

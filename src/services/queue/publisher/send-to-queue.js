@@ -1,4 +1,4 @@
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { initializeConfig } from '../../../config';
 import { channelPool } from '../helper';
 
@@ -6,7 +6,7 @@ export const sendToQueue = (message, options = {}) => {
   const config = initializeConfig();
 
   return new Promise((resolve, reject) => {
-    logEvent('Sending Message to Queue');
+    logInfo('Sending Message to Queue');
 
     channelPool.channel((error, channel) => {
       if (error) {
@@ -34,7 +34,7 @@ export const sendToQueue = (message, options = {}) => {
           reject(err);
         }
 
-        logEvent('Sent Message Successfully');
+        logInfo('Sent Message Successfully');
         channel.close();
         resolve();
       });

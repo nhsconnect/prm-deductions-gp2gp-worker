@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { initializeConfig } from '../../../config';
-import { logError } from '../../../middleware/logging';
+import { logError } from '../../../config/logging';
 import { setTransferComplete } from '../set-ehr-repo-transfer-complete';
 import { v4 } from 'uuid';
 
 jest.mock('axios');
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('setTransferComplete', () => {
   describe('uses old ehr repo api', () => {

@@ -1,10 +1,10 @@
-import { logEvent, logError } from '../../../../middleware/logging';
+import { logInfo, logError } from '../../../../config/logging';
 import { mockChannel } from '../../../../__mocks__/stompit';
 import { handleMessage } from '../message-handler';
 import { subscriberOnMessageCallback } from '../subscriber-on-message-callback';
 
 jest.mock('../message-handler');
-jest.mock('../../../../middleware/logging');
+jest.mock('../../../../config/logging');
 
 const mockMessage = 'mock-message';
 const mockBody = 'mock-body';
@@ -18,8 +18,8 @@ describe('subscriberOnMessageCallback', () => {
       await callback(false, mockBody);
     });
 
-    it('should call logEvent status on success with "Handling Message"', () => {
-      expect(logEvent).toHaveBeenCalledWith('Handling Message', expect.anything());
+    it('should call logInfo status on success with "Handling Message"', () => {
+      expect(logInfo).toHaveBeenCalledWith('Handling Message', expect.anything());
     });
   });
 
@@ -29,8 +29,8 @@ describe('subscriberOnMessageCallback', () => {
       await callback(mockError);
     });
 
-    it('should call logEvent status on error with "Handling Message"', () => {
-      expect(logEvent).toHaveBeenCalledWith('Handling Message', expect.anything());
+    it('should call logInfo status on error with "Handling Message"', () => {
+      expect(logInfo).toHaveBeenCalledWith('Handling Message', expect.anything());
     });
 
     it('should call logError with the error', () => {

@@ -2,10 +2,10 @@ import { v4 as uuid } from 'uuid';
 import { initializeConfig } from '../../../config';
 import { sendEhrRequest } from '../send-ehr-request';
 import nock from 'nock';
-import { logError } from '../../../middleware/logging';
+import { logError } from '../../../config/logging';
 
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('sendEhrRequest', () => {
   const conversationId = uuid();

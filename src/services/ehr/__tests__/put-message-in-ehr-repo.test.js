@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { initializeConfig } from '../../../config';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { putMessageInEhrRepo } from '../put-message-in-ehr-repo';
 
 jest.mock('axios');
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 
 describe('putMessageInEhrRepo', () => {
   const message = 'some-message';
@@ -24,10 +24,10 @@ describe('putMessageInEhrRepo', () => {
     done();
   });
 
-  it('should call logEvent with response details', async done => {
+  it('should call logInfo with response details', async done => {
     await putMessageInEhrRepo(url, message);
-    expect(logEvent).toHaveBeenCalledTimes(1);
-    expect(logEvent).toHaveBeenCalledWith('putMessageInEhrRepo success', {
+    expect(logInfo).toHaveBeenCalledTimes(1);
+    expect(logInfo).toHaveBeenCalledWith('putMessageInEhrRepo success', {
       ehrRepository: expect.objectContaining({ responseCode: 200, responseMessage: 'status-text' })
     });
     done();

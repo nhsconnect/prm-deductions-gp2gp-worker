@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { initializeConfig } from '../../../config';
-import { logEvent, logError } from '../../../middleware/logging';
+import { logInfo, logError } from '../../../config/logging';
 import { storeMessageInEhrRepo } from '../store-message-in-ehr-repo';
 import { fetchStorageUrl } from '../fetch-ehr-repo-storage-url';
 
 jest.mock('axios');
 jest.mock('../../../config');
-jest.mock('../../../middleware/logging');
+jest.mock('../../../config/logging');
 jest.mock('../fetch-ehr-repo-storage-url');
 
 describe('storeMessageInEhrRepo', () => {
@@ -42,7 +42,7 @@ describe('storeMessageInEhrRepo', () => {
     it('should update the log event when the transfer has not completed successfully', async done => {
       axios.put.mockRejectedValue({ stack: 'some-error' });
       await storeMessageInEhrRepo(message, { conversationId, messageId });
-      expect(logEvent).toHaveBeenCalledWith('Storing EHR in s3 bucket', {
+      expect(logInfo).toHaveBeenCalledWith('Storing EHR in s3 bucket', {
         ehrRepository: { url: 'some-url' }
       });
 
@@ -87,7 +87,7 @@ describe('storeMessageInEhrRepo', () => {
 
   it('should update the log event when the transfer has completed successfully', async done => {
     await storeMessageInEhrRepo(message, { conversationId, messageId });
-    expect(logEvent).toHaveBeenCalledWith('setTransferComplete success', {
+    expect(logInfo).toHaveBeenCalledWith('setTransferComplete success', {
       ehrRepository: { transferSuccessful: true }
     });
     done();
