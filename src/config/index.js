@@ -12,6 +12,5 @@ export const initializeConfig = () => ({
   repoToGpUrl: process.env.GP2GP_WORKER_REPO_TO_GP_URL,
   repoToGpAuthKeys: process.env.GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_REPO_TO_GP,
   nodeEnv: process.env.NODE_ENV || 'local',
-  nhsEnvironment: process.env.NHS_ENVIRONMENT || 'local',
-  useNewEhrRepoApi: process.env.USE_NEW_EHR_REPO_API === 'true'
+  nhsEnvironment: process.env.NHS_ENVIRONMENT || 'local'
 });

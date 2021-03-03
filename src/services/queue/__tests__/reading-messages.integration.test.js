@@ -107,7 +107,6 @@ describe('Should read messages from the queue successfully', () => {
 
     beforeEach(() => {
       initializeConfig.mockReturnValue({
-        useNewEhrRepoApi: true,
         ehrRepoUrl: 'http://localhost',
         ehrRepoAuthKeys: 'ehr-fake-keys',
         gpToRepoAuthKeys: 'fake-keys',

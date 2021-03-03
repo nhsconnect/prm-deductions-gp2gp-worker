@@ -70,15 +70,26 @@ describe('storeMessageInEhrRepo', () => {
     });
   });
 
-  describe('Tell EHR Repository that transfer of fragment is complete', () => {
-    it('should make patch request to ehr repo service with transfer complete flag', async done => {
-      await storeMessageInEhrRepo(message, { conversationId, messageId });
-      expect(axios.patch).toHaveBeenCalledWith(
-        `${mockEhrRepoUrl}/fragments`,
-        {
+  describe('Tell EHR Repository that transfer of message is complete', () => {
+    const nhsNumber = '1234567890';
+    const requestBody = {
+      data: {
+        type: 'messages',
+        id: messageId,
+        attributes: {
           conversationId,
-          transferComplete: true
-        },
+          messageType: 'ehrExtract',
+          nhsNumber,
+          attachmentMessageIds: []
+        }
+      }
+    };
+
+    it('should make post request to ehr repo service', async done => {
+      await storeMessageInEhrRepo(message, { conversationId, messageId, nhsNumber });
+      expect(axios.post).toHaveBeenCalledWith(
+        `${mockEhrRepoUrl}/messages`,
+        requestBody,
         expect.anything()
       );
       done();
@@ -87,7 +98,7 @@ describe('storeMessageInEhrRepo', () => {
 
   it('should update the log event when the transfer has completed successfully', async done => {
     await storeMessageInEhrRepo(message, { conversationId, messageId });
-    expect(logInfo).toHaveBeenCalledWith('setTransferComplete success', {
+    expect(logInfo).toHaveBeenCalledWith('confirmMessageStored success', {
       ehrRepository: { transferSuccessful: true }
     });
     done();
