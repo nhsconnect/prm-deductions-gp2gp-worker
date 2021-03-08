@@ -51,7 +51,7 @@ describe('Should read messages from the queue successfully', () => {
     it('should tell the GPToRepo that the PDS Update has been successful', async () => {
       const headers = { reqheaders: { Authorization: `${mockGpToRepoAuthKeys}` } };
       const scope = nock(mockGpToRepoUrl, headers)
-        .patch(`/deduction-requests/${conversationId}/pds-update`)
+        .patch(`/deduction-requests/${conversationId}/pds-updated`)
         .reply(204);
       await sendToQueue(pdsGeneralUpdateRequestAcceptedMessage, {
         destination: uniqueQueueName

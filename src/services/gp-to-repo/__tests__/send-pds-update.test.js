@@ -21,7 +21,7 @@ describe('sendPdsUpdate', () => {
     await sendPdsUpdate(conversationId);
     expect(axios.patch).toHaveBeenCalledTimes(1);
     expect(axios.patch).toHaveBeenCalledWith(
-      `${mockGpToRepoUrl}/deduction-requests/${conversationId}/pds-update`,
+      `${mockGpToRepoUrl}/deduction-requests/${conversationId}/pds-updated`,
       {},
       axiosHeaders
     );
