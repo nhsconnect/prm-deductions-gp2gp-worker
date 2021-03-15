@@ -1,6 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 import traverse from 'traverse';
 import { createLogger, format, transports } from 'winston';
+import { context, getSpan } from '@opentelemetry/api';
 import { initializeConfig } from './index';
 
 // eslint-disable-next-line no-unused-vars
@@ -25,6 +26,14 @@ export const obfuscateSecrets = format(info => {
 const addCommonFields = format(info => {
   const { nhsEnvironment } = initializeConfig();
   const updated = cloneDeep(info);
+  const currentSpan = getSpan(context.active());
+
+  if (currentSpan) {
+    updated['traceId'] = currentSpan.context().traceId;
+    updated['conversationId'] = currentSpan.attributes.conversationId;
+    updated['messageId'] = currentSpan.attributes.messageId;
+  }
+
   updated.level = updated.level.toUpperCase();
   updated['service'] = 'gp2gp-worker';
   updated['environment'] = nhsEnvironment;
