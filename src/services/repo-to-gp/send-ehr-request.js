@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { initializeConfig } from '../../config';
 import { logError, logInfo } from '../../config/logging';
+import { getTraceParentFromCurrentSpan } from '../../config/tracing';
 
 export const sendEhrRequest = async (nhsNumber, conversationId, odsCode, ehrRequestId) => {
   const config = initializeConfig();
@@ -16,10 +17,11 @@ export const sendEhrRequest = async (nhsNumber, conversationId, odsCode, ehrRequ
       }
     }
   };
-  const headers = { headers: { Authorization: config.repoToGpAuthKeys } };
+  const traceParent = getTraceParentFromCurrentSpan();
+  const headers = { Authorization: config.repoToGpAuthKeys, traceparent: traceParent };
 
   try {
-    await axios.post(url, body, headers);
+    await axios.post(url, body, { headers });
     logInfo(`EHR Request successfully sent to repo-to-gp`);
   } catch (err) {
     logError(`Cannot send EHR request to repo-to-gp: ${err.message}`);
