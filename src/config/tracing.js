@@ -3,11 +3,9 @@ import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { context, getSpan, propagation } from '@opentelemetry/api';
 import { HttpTraceContext } from '@opentelemetry/core';
 import { NodeTracerProvider } from '@opentelemetry/node';
-import { SimpleSpanProcessor, ConsoleSpanExporter } from '@opentelemetry/tracing';
 
 const tracerProvider = new NodeTracerProvider({});
 
-tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 propagation.setGlobalPropagator(new HttpTraceContext());
 
 tracerProvider.register();
@@ -16,7 +14,7 @@ registerInstrumentations({
   instrumentations: [new HttpInstrumentation()]
 });
 
-console.log('tracing initialised');
+console.log('Tracing initialised');
 
 export const tracer = tracerProvider.getTracer('gp2gp-worker-tracer');
 
