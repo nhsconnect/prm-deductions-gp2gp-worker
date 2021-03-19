@@ -28,3 +28,10 @@ export const getTraceParentFromCurrentSpan = () => {
     return `00-${traceId}-${spanId}-0${traceFlagsConverted}`;
   }
 };
+
+export const setCurrentSpanAttributes = attributes => {
+  const currentSpan = getSpan(context.active());
+  if (currentSpan) {
+    currentSpan.setAttributes(attributes);
+  }
+};

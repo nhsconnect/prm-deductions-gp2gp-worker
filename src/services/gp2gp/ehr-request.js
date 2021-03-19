@@ -1,5 +1,5 @@
-import { context, getSpan } from '@opentelemetry/api';
 import { logError, logInfo } from '../../config/logging';
+import { setCurrentSpanAttributes } from '../../config/tracing';
 import { parseMultipartBody } from '../parser';
 import { extractNhsNumber } from '../parser/message';
 import { sendEhrRequest } from '../repo-to-gp/send-ehr-request';
@@ -29,12 +29,7 @@ export class EhrRequest {
       const odsCode = await extractOdsCode(content.body);
       const ehrRequestId = await extractEhrRequestId(content.body);
       const conversationId = await extractConversationId(envelope.body);
-      const messageSpan = getSpan(context.active());
-
-      if (messageSpan) {
-        // TODO: use messageSpan.setAttribute function instead once opentelemetry version is bumped up
-        messageSpan.attributes = { conversationId };
-      }
+      setCurrentSpanAttributes({ conversationId });
 
       logInfo(`Parsed EHR Request message`);
 

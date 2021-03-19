@@ -1,4 +1,4 @@
-import { context, getSpan } from '@opentelemetry/api';
+import { setCurrentSpanAttributes } from '../../config/tracing';
 import { logInfo } from '../../config/logging';
 import { parseMultipartBody } from '../parser/';
 import { soapEnvelopeHandler } from '../soap';
@@ -18,13 +18,8 @@ class PDSGeneralUpdateRequestAccepted {
     });
     const multipartMessage = await parseMultipartBody(message);
     const soapInformation = await soapEnvelopeHandler(multipartMessage[0].body);
-    const messageSpan = getSpan(context.active());
     const conversationId = soapInformation.conversationId;
-
-    if (messageSpan) {
-      // TODO: use messageSpan.setAttribute function instead once opentelemetry version is bumped up
-      messageSpan.attributes = { conversationId };
-    }
+    setCurrentSpanAttributes({ conversationId });
 
     logInfo('SOAP Information Extracted', {
       messageDetails: soapInformation,

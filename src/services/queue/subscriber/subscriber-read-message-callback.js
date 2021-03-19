@@ -14,5 +14,4 @@ export const subscriberReadMessageCallback = channel => (err, messageStream) => 
 
     messageStream.readString('UTF-8', subscriberOnMessageCallback(channel, messageStream));
   });
-  messageSpan.end();
 };

@@ -1,4 +1,4 @@
-import { context, getSpan } from '@opentelemetry/api';
+import { setCurrentSpanAttributes } from '../../config/tracing';
 import { storeMessageInEhrRepo } from '../ehr';
 import { extractNhsNumber } from '../parser/message';
 import { parseMultipartBody } from '../parser';
@@ -24,15 +24,11 @@ class EHRRequestCompleted {
 
     const multipartMessage = await parseMultipartBody(message);
     const soapInformation = await soapEnvelopeHandler(multipartMessage[0].body);
-    const messageSpan = getSpan(context.active());
+    setCurrentSpanAttributes({
+      conversationId: soapInformation.conversationId,
+      messageId: soapInformation.messageId
+    });
 
-    if (messageSpan) {
-      // TODO: use messageSpan.setAttribute function instead once opentelemetry version is bumped up
-      messageSpan.attributes = {
-        conversationId: soapInformation.conversationId,
-        messageId: soapInformation.messageId
-      };
-    }
     const nhsNumber = await extractNhsNumber(multipartMessage[1].body).catch(() => {});
     const messageDetails = nhsNumber ? { ...soapInformation, nhsNumber } : soapInformation;
 
