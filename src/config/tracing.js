@@ -35,3 +35,10 @@ export const setCurrentSpanAttributes = attributes => {
     currentSpan.setAttributes(attributes);
   }
 };
+
+export const endCurrentSpan = () => {
+  const currentSpan = getSpan(context.active());
+  if (currentSpan) {
+    currentSpan.end();
+  }
+};
