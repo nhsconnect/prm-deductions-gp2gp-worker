@@ -8,7 +8,6 @@ import { initializeConfig } from '../../../config';
 import {
   conversationId,
   nhsNumber,
-  pdsGeneralUpdateRequestAcceptedMessage,
   messageId,
   ehrRequestCompletedMessage
 } from '../subscriber/__tests__/data/subscriber';
@@ -36,23 +35,6 @@ describe('Should read messages from the queue successfully', () => {
   afterEach(async () => {
     channel.close();
     await clearQueue({ destination: uniqueQueueName });
-  });
-
-  describe('Handle PDS Update successful', () => {
-    const mockGpToRepoUrl = 'http://localhost';
-    const mockGpToRepoAuthKeys = 'fake-keys';
-
-    it('should tell the GPToRepo that the PDS Update has been successful', async () => {
-      const headers = { reqheaders: { Authorization: `${mockGpToRepoAuthKeys}` } };
-      const scope = nock(mockGpToRepoUrl, headers)
-        .patch(`/deduction-requests/${conversationId}/pds-updated`)
-        .reply(204);
-      await sendToQueue(pdsGeneralUpdateRequestAcceptedMessage, {
-        destination: uniqueQueueName
-      });
-      await consumeOneMessage({ destination: uniqueQueueName });
-      expect(scope.isDone()).toBe(true);
-    });
   });
 
   describe('Handles EHR Extract', () => {

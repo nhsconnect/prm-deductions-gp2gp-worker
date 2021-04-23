@@ -2,7 +2,6 @@ import { logInfo, logError } from '../../../config/logging';
 import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../gp2gp';
 import { parseMultipartBody } from '../../parser';
 import { extractAction } from '../../parser/soap';
-import { PDSGeneralUpdateRequestAccepted, PDS_GENERAL_UPDATE_REQUEST_ACCEPTED } from '../../pds';
 import { DefaultMessage } from './';
 
 export const handleMessage = async message => {
@@ -26,10 +25,6 @@ export const handleMessage = async message => {
   switch (interactionId) {
     case EHR_REQUEST_COMPLETED:
       handler = new EHRRequestCompleted();
-      break;
-
-    case PDS_GENERAL_UPDATE_REQUEST_ACCEPTED:
-      handler = new PDSGeneralUpdateRequestAccepted();
       break;
 
     default:

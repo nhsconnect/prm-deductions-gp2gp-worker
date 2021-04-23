@@ -2,17 +2,14 @@ import { DefaultMessage, handleMessage } from '../';
 import { logInfo, logError } from '../../../../config/logging';
 import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../../gp2gp';
 import { parseMultipartBody } from '../../../parser';
-import { PDSGeneralUpdateRequestAccepted, PDS_GENERAL_UPDATE_REQUEST_ACCEPTED } from '../../../pds';
 import {
   ehrRequestCompletedMessage,
   messageWithoutAction,
-  pdsGeneralUpdateRequestAcceptedMessage,
   unhandledInteractionId
 } from './data/message-handler';
 
 jest.mock('../../../../config/logging');
 jest.mock('../../../gp2gp/ehr-request-completed');
-jest.mock('../../../pds/pds-general-update-request-accepted');
 jest.mock('../default-message');
 jest.mock('../../../parser/multipart-parser');
 
@@ -42,35 +39,6 @@ describe('handleMessage', () => {
     it('should logInfo with the correct interactionId', async done => {
       await handleMessage(ehrRequestCompletedMessage);
       expect(logInfo).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST_COMPLETED}`);
-      done();
-    });
-  });
-
-  describe('PDSGeneralUpdateRequestAccepted', () => {
-    beforeEach(() => {
-      PDSGeneralUpdateRequestAccepted.prototype.handleMessage = jest
-        .fn()
-        .mockResolvedValue('PDSGeneralUpdateRequestAccepted handled message');
-
-      parseMultipartBody.mockImplementation(() => [
-        {
-          body: `<Action>${PDS_GENERAL_UPDATE_REQUEST_ACCEPTED}</Action>`
-        }
-      ]);
-    });
-
-    it('should call PDSGeneralUpdateRequestAccepted with the message if message is type ', async done => {
-      await handleMessage(pdsGeneralUpdateRequestAcceptedMessage);
-      expect(PDSGeneralUpdateRequestAccepted.prototype.handleMessage).toHaveBeenCalledTimes(1);
-      expect(PDSGeneralUpdateRequestAccepted.prototype.handleMessage).toHaveBeenCalledWith(
-        pdsGeneralUpdateRequestAcceptedMessage
-      );
-      done();
-    });
-
-    it('should logInfo with the correct interactionId', async done => {
-      await handleMessage(pdsGeneralUpdateRequestAcceptedMessage);
-      expect(logInfo).toHaveBeenCalledWith(`interactionId: ${PDS_GENERAL_UPDATE_REQUEST_ACCEPTED}`);
       done();
     });
   });
