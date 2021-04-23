@@ -10,12 +10,10 @@ locals {
       { name = "GP2GP_WORKER_MHS_QUEUE_URL_2", value = data.aws_ssm_parameter.amq-endpoint_1.value },
       { name = "GP2GP_WORKER_EHR_REPO_URL", value = "https://${var.environment}.ehr-repo.patient-deductions.nhs.uk" },
       { name = "GP2GP_WORKER_GP_TO_REPO_URL", value = data.aws_ssm_parameter.gp2gp_worker_gp_to_repo_url.value },
-      { name = "GP2GP_WORKER_REPO_TO_GP_URL", value = data.aws_ssm_parameter.gp2gp_worker_repo_to_gp_url.value }
     ]
     secret_environment_variables = [
       { name = "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_EHR_REPO", valueFrom = data.aws_ssm_parameter.gp2gp_worker_authorization_keys_for_ehr_repo.arn },
       { name = "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_GP_TO_REPO", valueFrom = data.aws_ssm_parameter.gp2gp_worker_authorization_keys_for_gp_to_repo.arn },
-      { name = "GP2GP_WORKER_AUTHORIZATION_KEYS_FOR_REPO_TO_GP", valueFrom = data.aws_ssm_parameter.gp2gp_worker_authorization_keys_for_repo_to_gp.arn },
       { name = "GP2GP_WORKER_MHS_QUEUE_USERNAME", valueFrom = data.aws_ssm_parameter.amq-username.arn },
       { name = "GP2GP_WORKER_MHS_QUEUE_PASSWORD", valueFrom = data.aws_ssm_parameter.amq-password.arn },
     ]

@@ -8,10 +8,7 @@ import { initializeConfig } from '../../../config';
 import {
   conversationId,
   nhsNumber,
-  odsCode,
-  ehrRequestMessage,
   pdsGeneralUpdateRequestAcceptedMessage,
-  ehrRequestId,
   messageId,
   ehrRequestCompletedMessage
 } from '../subscriber/__tests__/data/subscriber';
@@ -23,8 +20,6 @@ jest.mock('../../../config', () => ({
   initializeConfig: jest.fn().mockReturnValue({
     gpToRepoAuthKeys: 'fake-keys',
     gpToRepoUrl: 'http://localhost',
-    repoToGpAuthKeys: 'more-fake-keys',
-    repoToGpUrl: 'http://localhost',
     queueUrls: [process.env.GP2GP_WORKER_MHS_QUEUE_URL_1, process.env.GP2GP_WORKER_MHS_QUEUE_URL_2]
   })
 }));
@@ -60,33 +55,6 @@ describe('Should read messages from the queue successfully', () => {
     });
   });
 
-  describe('Handle EHR Request', () => {
-    const mockRepoToGpUrl = 'http://localhost';
-    const mockRepoToGpAuthKeys = 'more-fake-keys';
-
-    it('should tell RepoToGP that an EHR request has been received', async () => {
-      const headers = { reqheaders: { Authorization: `${mockRepoToGpAuthKeys}` } };
-      const body = {
-        data: {
-          type: 'registration-requests',
-          id: conversationId,
-          attributes: {
-            nhsNumber,
-            odsCode,
-            ehrRequestId
-          }
-        }
-      };
-      const scope = nock(mockRepoToGpUrl, headers).post(`/registration-requests/`, body).reply(201);
-
-      await sendToQueue(ehrRequestMessage, {
-        destination: uniqueQueueName
-      });
-      await consumeOneMessage({ destination: uniqueQueueName });
-      expect(scope.isDone()).toBe(true);
-    });
-  });
-
   describe('Handles EHR Extract', () => {
     const mockEhrRepoUrl = 'http://localhost';
     const mockEhrRepoAuthKeys = 'ehr-fake-keys';
@@ -110,8 +78,6 @@ describe('Should read messages from the queue successfully', () => {
         ehrRepoAuthKeys: 'ehr-fake-keys',
         gpToRepoAuthKeys: 'fake-keys',
         gpToRepoUrl: 'http://localhost',
-        repoToGpAuthKeys: 'more-fake-keys',
-        repoToGpUrl: 'http://localhost',
         queueUrls: [
           process.env.GP2GP_WORKER_MHS_QUEUE_URL_1,
           process.env.GP2GP_WORKER_MHS_QUEUE_URL_2

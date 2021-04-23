@@ -44,11 +44,3 @@ data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_gp_to_repo" {
   name = "/repo/${var.environment}/user-input/gp-to-repo-authorization-keys"
 }
 
-data "aws_ssm_parameter" "gp2gp_worker_authorization_keys_for_repo_to_gp" {
-  name = "/repo/${var.environment}/user-input/repo-to-gp-authorization-keys"
-}
-
-data "aws_ssm_parameter" "gp2gp_worker_repo_to_gp_url" {
-  name = "/repo/${var.environment}/output/prm-deductions-repo-to-gp/repo-to-gp-service-url"
-}
-
