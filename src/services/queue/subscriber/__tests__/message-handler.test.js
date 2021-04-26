@@ -1,48 +1,13 @@
 import { DefaultMessage, handleMessage } from '../';
 import { logInfo, logError } from '../../../../config/logging';
-import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../../gp2gp';
 import { parseMultipartBody } from '../../../parser';
-import {
-  ehrRequestCompletedMessage,
-  messageWithoutAction,
-  unhandledInteractionId
-} from './data/message-handler';
+import { messageWithoutAction, unhandledInteractionId } from './data/message-handler';
 
 jest.mock('../../../../config/logging');
-jest.mock('../../../gp2gp/ehr-request-completed');
 jest.mock('../default-message');
 jest.mock('../../../parser/multipart-parser');
 
 describe('handleMessage', () => {
-  describe('EHRRequestCompleted', () => {
-    beforeEach(() => {
-      EHRRequestCompleted.prototype.handleMessage = jest
-        .fn()
-        .mockResolvedValue('EHRRequestCompleted handled message');
-
-      parseMultipartBody.mockImplementation(() => [
-        {
-          body: `<Action>${EHR_REQUEST_COMPLETED}</Action>`
-        }
-      ]);
-    });
-
-    it('should call EHRRequestCompleted with the message if message is type RCMR_IN030000UK06', async done => {
-      await handleMessage(ehrRequestCompletedMessage);
-      expect(EHRRequestCompleted.prototype.handleMessage).toHaveBeenCalledTimes(1);
-      expect(EHRRequestCompleted.prototype.handleMessage).toHaveBeenCalledWith(
-        ehrRequestCompletedMessage
-      );
-      done();
-    });
-
-    it('should logInfo with the correct interactionId', async done => {
-      await handleMessage(ehrRequestCompletedMessage);
-      expect(logInfo).toHaveBeenCalledWith(`interactionId: ${EHR_REQUEST_COMPLETED}`);
-      done();
-    });
-  });
-
   describe('DefaultMessage', () => {
     beforeEach(() => {
       DefaultMessage.prototype.handleMessage = jest

@@ -1,5 +1,4 @@
 import { logInfo, logError } from '../../../config/logging';
-import { EHRRequestCompleted, EHR_REQUEST_COMPLETED } from '../../gp2gp';
 import { parseMultipartBody } from '../../parser';
 import { extractAction } from '../../parser/soap';
 import { DefaultMessage } from './';
@@ -23,10 +22,6 @@ export const handleMessage = async message => {
   let handler;
 
   switch (interactionId) {
-    case EHR_REQUEST_COMPLETED:
-      handler = new EHRRequestCompleted();
-      break;
-
     default:
       handler = new DefaultMessage();
   }
